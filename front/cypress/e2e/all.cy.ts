@@ -1,0 +1,5 @@
+import "./register.cy"
+import "./login.cy"
+import "./form.cy"
+import "./delete-account.cy"
+import "./delete-session.cy"
