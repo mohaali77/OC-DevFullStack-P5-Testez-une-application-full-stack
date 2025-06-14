@@ -6,88 +6,117 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterTestingModule } from '@angular/router/testing';
 import { expect } from '@jest/globals';
-import { SessionService } from 'src/app/services/session.service';
 import { FormBuilder } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { RegisterComponent } from './register.component';
 
-describe('LoginComponent', () => {
-  let component: RegisterComponent;
-  let fixture: ComponentFixture<RegisterComponent>;
+/**
+ * Test d'intégration du RegisterComponent :
+ * Intercepte les requêtes HTTP grâce à HttpTestingController
+ */
+describe('RegisterComponent', () => {
+  let component: RegisterComponent; // Composant à tester
+  let fixture: ComponentFixture<RegisterComponent>; 
   let httpMock: HttpTestingController; // Pour intercepter les requêtes HTTP
-  let routerMock: any;
+  let routerMock: Partial<Router>; // Mock du router
 
+  /**
+   * Configuration du test avant chaque test unitaire
+   */
   beforeEach(async () => {
+    // Mock de la méthode navigate du router
     routerMock = {
-      navigate: jest.fn() // Mock de la méthode 'navigate'
+      navigate: jest.fn()
     };
 
     await TestBed.configureTestingModule({
-      declarations: [RegisterComponent],
-      providers: [SessionService, FormBuilder,
-        AuthService, // Service réel pour l'intégration
-        { provide: Router, useValue: routerMock }],
+      declarations: [RegisterComponent], // Composant testé
+      providers: [
+        FormBuilder, 
+        AuthService,
+        { provide: Router, useValue: routerMock } 
+      ],
       imports: [
-        RouterTestingModule,
-        BrowserAnimationsModule,
-        HttpClientTestingModule, // Utiliser HttpClientTestingModule pour les tests
+        HttpClientTestingModule, // Simule les requêtes HTTP
+        ReactiveFormsModule, // Pour utiliser les formulaires réactifs
+        MatFormFieldModule,
         MatCardModule,
         MatIconModule,
-        MatFormFieldModule,
         MatInputModule,
-        ReactiveFormsModule
+        BrowserAnimationsModule
       ],
-    }).compileComponents();
+    }).compileComponents(); // Compilation du composant et de ses dépendances
 
-    fixture = TestBed.createComponent(RegisterComponent);
-    component = fixture.componentInstance;
-    httpMock = TestBed.inject(HttpTestingController); // Initialiser httpMock
-    fixture.detectChanges();
+      // Initialisation du contrôleur HTTP pour intercepter les appels
+      httpMock = TestBed.inject(HttpTestingController);
+
+      fixture = TestBed.createComponent(RegisterComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    
   });
 
+   /**
+   * Vérifie qu’aucune requête HTTP n’est restée non traitée à la fin de chaque test
+   */
   afterEach(() => {
-    httpMock.verify(); // Vérifie qu'aucune requête non traitée n'est restée
+    httpMock.verify();
   });
 
+  /**
+   * Vérifie que le composant est bien instancié
+   */
   it('should create', () => {
-    expect(component).toBeTruthy();
+    expect(component).toBeTruthy(); // Le composant doit exister
   });
 
-  it('should call authService.login and navigate to sessions on success', () => {
+  /**
+   * Vérifie que l'inscription fonctionne et redirige vers la page de login
+   */
+  it('should register the user and navigate to login on success', () => {
+    // Remplit tous les champs du formulaire
     component.form.setValue({
-      firstName: 'Jack',
-      lastName: "Peter",
       email: 'test@test.com',
+      lastName: 'Doe',
+      firstName: 'John',
       password: 'password123'
-    });
+    }); 
 
-    component.submit();
+    // Soumet le formulaire
+    component.submit(); 
 
-    // Intercepter la requête HTTP et simuler une réponse réussie
-    const req = httpMock.expectOne('api/auth/register'); // Endpoint attendu
-    expect(req.request.method).toBe('POST'); // Vérifie que c'est bien une requête POST
-    req.flush({}); // Simule une réponse vide pour un succès
+    // Intercepte la requête
+    const req = httpMock.expectOne('api/auth/register'); 
+    // Vérifie que c’est bien une requête POST
+    expect(req.request.method).toBe('POST'); 
+    // Simule une réponse vide = succès
+    req.flush({}); 
 
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']); // Vérifie la redirection
+    // Vérifie la redirection vers la page login
+    expect(routerMock.navigate).toHaveBeenCalledWith(['/login']); 
   });
 
-  it('should set onError to true on login error', () => {
+  /**
+   * Configuration avant chaque test (simule l'environnement du composant).
+   */
+  it('should set onError to true on registration error', () => {
     component.form.setValue({
-      firstName: 'Jack',
-      lastName: "Peter",
       email: 'test@test.com',
+      lastName: 'Doe',
+      firstName: 'John',
       password: 'password123'
-    });
+    }); // Remplit le formulaire
 
-    component.submit();
+    // Soumet le formulaire
+    component.submit(); 
 
-    // Intercepter la requête HTTP et simuler une erreur
-    const req = httpMock.expectOne('api/auth/register');
-    req.flush('Register failed', { status: 400, statusText: 'Bad Request' });
+    // Interception de la requête
+    const req = httpMock.expectOne('api/auth/register'); 
+    req.flush('Registration failed', { status: 400, statusText: 'Bad Request' }); // Simule une erreur
 
-    expect(component.onError).toBe(true); // Vérifie que onError est mis à true
+    // Vérifie que l’erreur est bien détectée
+    expect(component.onError).toBe(true); 
   });
 });
