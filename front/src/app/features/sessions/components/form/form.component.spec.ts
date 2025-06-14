@@ -6,17 +6,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { expect } from '@jest/globals';
-
 import { FormComponent } from './form.component';
 import { SessionApiService } from '../../services/session-api.service';
 import { SessionService } from 'src/app/services/session.service';
 import { Session } from '../../interfaces/session.interface';
-import { Router } from '@angular/router';
 
 describe('FormComponent', () => {
   let component: FormComponent;

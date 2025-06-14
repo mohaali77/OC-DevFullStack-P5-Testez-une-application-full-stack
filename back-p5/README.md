@@ -16,7 +16,7 @@ Ce projet consiste en une application web de gestion de session de Yoga, dévelo
 **1. Cloner le dépôt :**
 
  ```bash
-   git clone https://github.com/OpenClassrooms-Student-Center/Testez-une-application-full-stack
+   git clone https://github.com/mohaali77/OC-DevFullStack-P5-Testez-une-application-full-stack
 ```
 
 ## Installation de la base de donnée
@@ -26,7 +26,7 @@ Ce projet consiste en une application web de gestion de session de Yoga, dévelo
 ```bash
   CREATE DATABASE test;
   ```
-**2. Télécharger le script SQL [ici](https://github.com/OpenClassrooms-Student-Center/Testez-une-application-full-stack/blob/master/ressources/sql/script.sql) et exécuter le :** 
+**2. Télécharger le script SQL [ici](https://github.com/mohaali77/OC-DevFullStack-P5-Testez-une-application-full-stack/blob/clean-main/ressources/sql/script.sql) et exécuter le :** 
 
 ```bash
   USE test;
@@ -63,6 +63,10 @@ Mot de passe :
 **3. Lancer l'application Angular :**
 
 ```bash
+  npm run start
+   ```
+   
+```bash
   ng serve
    ```
 
@@ -89,18 +93,41 @@ Mot de passe :
 
 ## Test Front-end :
 
+## IMPORTANT :
+
+Ce projet comporte un total de 60 tests répartis comme suit :
+
+Front-end : 13 tests (hors tests create), dont 7 tests d’intégration et 6 tests unitaires, soit environ 54 % d’intégration et 46 % d’unitaires.
+
+Back-end : 47 tests, dont 32 tests d’intégration et 15 tests unitaires, soit environ 68 % d’intégration et 32 % d’unitaires.
+
+
 ### Jest :
 
-**1. Lancer les tests unitaires et d'intégrations Jest : :**
+**1. Lancer les tests unitaires et d'intégrations Jest :**
 
 ```bash
 npm run test
 ```
 
+```bash
+npx jest
+```
+
 **2. Voir le rapport de couverture Jest :**
 
 ```bash
+npm run test -- --coverage
+```
+
+```bash
 npx jest --coverage
+```
+
+Le rapport de couverture sera affiché dans le terminal, mais également dans ce fichier : 
+
+```bash
+front/coverage/jest/lcov-report/index.html
 ```
 
 ### Cypress :
@@ -119,7 +146,14 @@ npm run e2e:coverage
 
 ## Test Back-end :
 
-**1. Lancer les test Cypress :**
+**1. Configurer le fichier application.properties :**
+
+```bash
+  spring.datasource.username=VOTRE_USERNAME_MYSQL
+  spring.datasource.password=VOTRE_PASSWORD_MYSQL
+```
+
+**2. Lancer les test back-end :**
 
 ```bash
 mvn clean
@@ -133,7 +167,7 @@ mvn install
 mvn test
 ```
 
-**2. Voir le rapport de couverture généré ici :**
+**3. Voir le rapport de couverture généré ici :**
 
 ```bash
 back/target/site/index.html

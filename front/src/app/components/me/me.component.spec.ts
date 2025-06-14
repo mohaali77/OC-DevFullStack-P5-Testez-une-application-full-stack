@@ -6,10 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { expect } from '@jest/globals';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-
 import { SessionService } from 'src/app/services/session.service';
-import { of } from 'rxjs'; 
-
 import { MeComponent } from './me.component'; 
 import { UserService } from 'src/app/services/user.service'; 
 import { Router } from '@angular/router'; 
