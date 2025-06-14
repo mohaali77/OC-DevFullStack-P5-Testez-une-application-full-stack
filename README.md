@@ -1,72 +1,179 @@
-# Yoga
+# Projet Yoga - Angular | Spring Boot & MySQL
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
+## Description
+Ce projet consiste en une application web de gestion de session de Yoga, développée en utilisant Java et Spring Boot pour le backend, ainsi qu'Angular pour le frontend. Ce guide vous accompagnera étape par étape pour configurer et exécuter l'application.
 
-## Start the project
+## Prérequis
+- **Java 11** 
+- **Node.js 16** 
+- **Npm** 
+- **MySQL** 
+- **Angular CLI 14**
+- **Git** 
 
-Git clone:
+## Installation du dépôt
 
-> git clone https://github.com/OpenClassrooms-Student-Center/P5-Full-Stack-testing
+**1. Cloner le dépôt :**
 
-Go inside folder:
+ ```bash
+   git clone https://github.com/mohaali77/OC-DevFullStack-P5-Testez-une-application-full-stack
+```
 
-> cd yoga
+## Installation de la base de donnée
 
-Install dependencies:
+**1. Créer une nouvelle base de données dans MySQL :**
 
-> npm install
+```bash
+  CREATE DATABASE test;
+  ```
+**2. Télécharger le script SQL [ici](https://github.com/mohaali77/OC-DevFullStack-P5-Testez-une-application-full-stack/blob/clean-main/ressources/sql/script.sql) et exécuter le :** 
 
-Launch Front-end:
+```bash
+  USE test;
+   ```
+```bash
+  SOURCE C:/your/path/to/script.sql;
+   ```
+**3. Par défaut, un admin sera générer avec la base de donnée : ** 
 
-> npm run start;
+Email : 
 
-
-## Ressources
-
-### Mockoon env 
-
-### Postman collection
-
-For Postman import the collection
-
-> ressources/postman/yoga.postman_collection.json 
-
-by following the documentation: 
-
-https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman
-
-
-### MySQL
-
-SQL script for creating the schema is available `ressources/sql/script.sql`
-
-By default the admin account is:
-- login: yoga@studio.com
-- password: test!1234
+```bash
+   yoga@studio.com
+   ```
+Mot de passe :
+   
+ ```bash
+	test!1234
+   ```
+   
+## Installation du Frontend
 
 
-### Test
+**1. Accéder au répertoire du frontend :**
 
-#### E2E
+ ```bash
+  cd front
+   ```
+**2. Installer les dépendances**
 
-Launching e2e test:
+```bash
+  npm install
+   ```
+**3. Lancer l'application Angular :**
 
-> npm run e2e
+```bash
+  npm run start
+   ```
+   
+```bash
+  ng serve
+   ```
 
-Generate coverage report (you should launch e2e test before):
+**4. L'application sera accessible à l'adresse suivante :**
 
-> npm run e2e:coverage
+```bash
+  http://localhost:4200
+   ```
 
-Report is available here:
+## Installation du Backend
 
-> front/coverage/lcov-report/index.html
 
-#### Unitary test
+**1. Accéder au répertoire du back-end :**
 
-Launching test:
+ ```bash
+  cd back
+   ```
+   
+**2. Lancer l'application Spring Boot :**
 
-> npm run test
+```bash
+  mvn spring-boot:run
+```
 
-for following change:
+## Test Front-end :
 
-> npm run test:watch
+## IMPORTANT :
+
+Ce projet comporte un total de 60 tests répartis comme suit :
+
+Front-end : 13 tests (hors tests create), dont 7 tests d’intégration et 6 tests unitaires, soit environ 54 % d’intégration et 46 % d’unitaires.
+
+Back-end : 47 tests, dont 32 tests d’intégration et 15 tests unitaires, soit environ 68 % d’intégration et 32 % d’unitaires.
+
+
+### Jest :
+
+**1. Lancer les tests unitaires et d'intégrations Jest :**
+
+```bash
+npm run test
+```
+
+```bash
+npx jest
+```
+
+**2. Voir le rapport de couverture Jest :**
+
+```bash
+npm run test -- --coverage
+```
+
+```bash
+npx jest --coverage
+```
+
+Le rapport de couverture sera affiché dans le terminal, mais également dans ce fichier : 
+
+```bash
+front/coverage/jest/lcov-report/index.html
+```
+
+### Cypress :
+
+**1. Lancer les tests end-to-end Cypress :**
+
+```bash
+npm run e2e
+```
+
+**2. Voir le rapport de couverture (Lancer les test e2e avant) :**
+
+```bash
+npm run e2e:coverage
+```
+
+## Test Back-end :
+
+**1. Configurer le fichier application.properties :**
+
+```bash
+  spring.datasource.username=VOTRE_USERNAME_MYSQL
+  spring.datasource.password=VOTRE_PASSWORD_MYSQL
+```
+
+**2. Lancer les test back-end :**
+
+```bash
+mvn clean
+```
+
+```bash
+mvn install
+```
+
+```bash
+mvn test
+```
+
+**3. Voir le rapport de couverture généré ici :**
+
+```bash
+back/target/site/index.html
+```
+
+
+
+
+   
