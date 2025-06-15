@@ -15,6 +15,11 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public class SessionMapperTest {
@@ -92,4 +97,26 @@ public class SessionMapperTest {
         assertThat(dto.getTeacher_id()).isEqualTo(10L);
         assertThat(dto.getUsers()).containsExactlyInAnyOrder(1L, 2L);
     }
+    
+    @Test
+    void testToEntity_SessionDto_VariousNullCases() {
+        // Cas sessionDto null
+        assertNull(sessionMapper.toEntity((SessionDto) null));
+
+        // Cas avec teacher_id et users null
+        SessionDto dto = new SessionDto();
+        dto.setId(1L);
+        dto.setName("Session Test");
+
+        // Mock pour éviter NullPointerException
+        when(userService.findById(anyLong())).thenReturn(new User());
+
+        Session result = sessionMapper.toEntity(dto);
+
+        assertNotNull(result);
+        assertNull(result.getTeacher()); // teacher_id est null
+        assertNotNull(result.getUsers()); // doit être une liste vide
+        assertTrue(result.getUsers().isEmpty());
+    }
+
 }
